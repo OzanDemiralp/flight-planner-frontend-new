@@ -1,7 +1,14 @@
+import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 
-export default function TripListFooter({ pageCount, page, onPageChange }) {
+export default function TripListFooter({
+  pageCount,
+  page,
+  onPageChange,
+  selectedCount,
+  onSaveSelected,
+}) {
   if (pageCount <= 1) return null;
 
   return (
@@ -14,6 +21,15 @@ export default function TripListFooter({ pageCount, page, onPageChange }) {
         siblingCount={1}
         boundaryCount={1}
       />
+      <Button
+        sx={{ ml: 1 }}
+        variant='contained'
+        size='small'
+        disabled={selectedCount === 0}
+        onClick={onSaveSelected}
+      >
+        Save selected ({selectedCount})
+      </Button>
     </Box>
   );
 }

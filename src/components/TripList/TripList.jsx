@@ -9,6 +9,7 @@ import TripListFooter from './TripListFooter';
 export default function TripList({ trips }) {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(6);
+  const [selectedTripIds, setSelectedTripIds] = useState(() => new Set());
 
   const pageCount = Math.ceil(trips.length / pageSize);
 
@@ -23,6 +24,18 @@ export default function TripList({ trips }) {
   };
 
   const handleFooterPageChange = (_, value) => setPage(value);
+
+  const toggleSelectedTrips = (id) => {
+    setSelectedTripIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const handleSaveSelected = () => {
+    setSelectedTripIds(new Set());
+  };
 
   return (
     <Box
@@ -43,13 +56,19 @@ export default function TripList({ trips }) {
       />
 
       <Divider />
-      <TripResults trips={pageTrips} />
+      <TripResults
+        trips={pageTrips}
+        isSelected={(id) => selectedTripIds.has(id)}
+        onToggleSelected={toggleSelectedTrips}
+      />
       <Divider />
 
       <TripListFooter
         pageCount={pageCount}
         page={page}
         onPageChange={handleFooterPageChange}
+        selectedCount={selectedTripIds.size}
+        onSaveSelected={handleSaveSelected}
       />
     </Box>
   );

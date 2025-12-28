@@ -15,7 +15,7 @@ import TripCollapse from './TripCollapse.jsx';
 
 import { useState } from 'react';
 
-export default function TripCard({ trip }) {
+export default function TripCard({ trip, selected, onToggleSelected }) {
   const [open, setOpen] = useState(false);
   const handleToggle = () => {
     setOpen((prev) => !prev);
@@ -33,7 +33,11 @@ export default function TripCard({ trip }) {
       }}
     >
       <CardContent sx={{ p: 2 }}>
-        <TripHeader totalPrice={trip.totalPrice} />
+        <TripHeader
+          totalPrice={trip.totalPrice}
+          selected={selected}
+          onToggleSelected={() => onToggleSelected(trip.id)}
+        />
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.25}>
           <FlightCard
