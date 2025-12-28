@@ -39,6 +39,7 @@ export default function TripList({ trips }) {
 
   return (
     <Box
+      className='scrollArea'
       sx={{
         height: 'calc(100vh - 120px)',
         display: 'flex',
