@@ -19,7 +19,6 @@ export default function TripToggleButton({ open, onToggle }) {
             }}
           />
         }
-        sx={{ textTransform: 'none', borderRadius: 2, fontWeight: 800 }}
       >
         {open ? 'Hide details' : 'Show details'}
       </Button>

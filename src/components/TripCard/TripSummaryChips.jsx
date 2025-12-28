@@ -8,19 +8,16 @@ export default function TripSummaryChips({ details }) {
         label={`${details.nonWorkingDaysCount} non-working days`}
         size='small'
         variant='outlined'
-        sx={{ fontWeight: 700 }}
       />
       <Chip
         label={`${details.workDaysUsed} work days used`}
         size='small'
         variant='outlined'
-        sx={{ fontWeight: 700 }}
       />
       <Chip
         label={`${details.totalDays} total days`}
         size='small'
         variant='outlined'
-        sx={{ fontWeight: 700 }}
       />
     </Stack>
   );
