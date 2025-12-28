@@ -1,12 +1,14 @@
-import { Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import './App.css';
-import TripCard from './components/TripCard/TripCard.jsx';
-import { trip } from './mock/trip.js';
+import { trips } from './mock/trips';
+import TripList from './components/TripList/TripList.jsx';
 
 function App() {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-      <TripCard trip={trip} />{' '}
+      <Container maxWidth='md' sx={{ height: '100%', py: 2 }}>
+        <TripList trips={trips} />
+      </Container>
     </Box>
   );
 }
