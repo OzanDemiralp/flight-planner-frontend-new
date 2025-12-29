@@ -1,46 +1,56 @@
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+import dayjs from 'dayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export default function TripRulesSection({ state, dispatch }) {
   return (
     <Box>
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
-        <TextField
+        <DatePicker
           label='Earliest departure'
-          type='date'
-          value={state.searchWindow.startDate}
-          onChange={(e) =>
+          value={
+            state.searchWindow.startDate
+              ? dayjs(state.searchWindow.startDate)
+              : null
+          }
+          onChange={(newValue) =>
             dispatch({
               type: 'SET_SEARCH_WINDOW',
               field: 'startDate',
-              value: e.target.value,
+              value: newValue ? newValue.format('YYYY-MM-DD') : '',
             })
           }
-          fullWidth
-          size='small'
-          required
           slotProps={{
-            inputLabel: { shrink: true },
+            textField: {
+              fullWidth: true,
+              size: 'small',
+              required: true,
+            },
           }}
         />
 
-        <TextField
+        <DatePicker
           label='Latest return'
-          type='date'
-          value={state.searchWindow.endDate}
-          onChange={(e) =>
+          value={
+            state.searchWindow.endDate
+              ? dayjs(state.searchWindow.endDate)
+              : null
+          }
+          onChange={(newValue) =>
             dispatch({
               type: 'SET_SEARCH_WINDOW',
               field: 'endDate',
-              value: e.target.value,
+              value: newValue ? newValue.format('YYYY-MM-DD') : '',
             })
           }
-          fullWidth
-          size='small'
-          required
           slotProps={{
-            inputLabel: { shrink: true },
+            textField: {
+              fullWidth: true,
+              size: 'small',
+              required: true,
+            },
           }}
         />
       </Stack>
