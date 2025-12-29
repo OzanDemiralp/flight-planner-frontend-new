@@ -5,18 +5,18 @@ const theme = createTheme({
     mode: 'dark',
 
     primary: {
-      main: '#4DA3FF', // ana mavi (CTA, seçili state)
+      main: '#4DA3FF',
       light: '#7BB9FF',
       dark: '#1E6FD9',
     },
 
     secondary: {
-      main: '#9AA4B2', // soğuk gri (chip, secondary button)
+      main: '#9AA4B2',
     },
 
     background: {
-      default: '#141A21', // app background (neredeyse siyah)
-      paper: '#1B2430', // Card, Menu, Popover
+      default: '#141A21',
+      paper: '#1B2430',
     },
 
     text: {
