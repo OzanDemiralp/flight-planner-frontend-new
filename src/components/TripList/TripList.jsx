@@ -5,11 +5,13 @@ import Divider from '@mui/material/Divider';
 import TripListHeader from './TripListHeader';
 import TripResults from './TripResults';
 import TripListFooter from './TripListFooter';
+import SearchForm from '../SearchForm/SearchForm.jsx';
 
 export default function TripList({ trips }) {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(6);
   const [selectedTripIds, setSelectedTripIds] = useState(() => new Set());
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const pageCount = Math.ceil(trips.length / pageSize);
 
@@ -54,6 +56,9 @@ export default function TripList({ trips }) {
         total={trips.length}
         pageSize={pageSize}
         onPageSizeChange={handlePageSizeChange}
+        searchOpen={searchOpen}
+        onToggleSearch={() => setSearchOpen((v) => !v)}
+        searchForm={<SearchForm />}
       />
 
       <Divider />
