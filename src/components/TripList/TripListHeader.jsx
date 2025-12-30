@@ -61,7 +61,7 @@ export default function TripListHeader({
             backgroundColor: 'background.default',
           }}
         >
-          <Collapse in={searchOpen} timeout={200} unmountOnExit>
+          <Collapse in={searchOpen} timeout={200}>
             <Box
               sx={{
                 p: 2,

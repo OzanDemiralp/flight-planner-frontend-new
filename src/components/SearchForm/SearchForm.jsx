@@ -74,14 +74,13 @@ function reducer(state, action) {
   }
 }
 
-export default function SearchForm({ onSubmit, onClose }) {
+export default function SearchForm({ onSubmit }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const submit = (e) => {
     e.preventDefault();
     const payload = buildPayload(state);
     onSubmit?.(payload);
-    onClose?.();
   };
 
   const reset = () => dispatch({ type: 'RESET', initialState });

@@ -7,7 +7,9 @@ import TripResults from './TripResults';
 import TripListFooter from './TripListFooter';
 import SearchForm from '../SearchForm/SearchForm.jsx';
 
-export default function TripList({ trips }) {
+import { planTrip } from '../../api/trips.api.js';
+
+export default function TripList({ trips = [], onTripsChange }) {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(6);
   const [selectedTripIds, setSelectedTripIds] = useState(() => new Set());
@@ -39,6 +41,18 @@ export default function TripList({ trips }) {
     setSelectedTripIds(new Set());
   };
 
+  const handleSearch = async (payload) => {
+    try {
+      const res = await planTrip(payload);
+      onTripsChange(res.data.trips);
+      setPage(1);
+      setSelectedTripIds(new Set());
+      setSearchOpen(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <Box
       className='scrollArea'
@@ -58,7 +72,12 @@ export default function TripList({ trips }) {
         onPageSizeChange={handlePageSizeChange}
         searchOpen={searchOpen}
         onToggleSearch={() => setSearchOpen((v) => !v)}
-        searchForm={<SearchForm />}
+        searchForm={
+          <SearchForm
+            onSubmit={handleSearch}
+            onClose={() => setSearchOpen(false)}
+          />
+        }
       />
 
       <Divider />
