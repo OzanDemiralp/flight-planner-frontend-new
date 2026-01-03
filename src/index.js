@@ -6,13 +6,16 @@ import theme from './theme';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/tr';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ThemeProvider theme={theme}>
     <CssBaseline />
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='tr'>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </LocalizationProvider>
   </ThemeProvider>
 );

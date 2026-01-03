@@ -1,21 +1,24 @@
-import { Box, Container } from '@mui/material';
 import './App.css';
-import TripList from './components/TripList/TripList.jsx';
-import Navbar from './components/layout/Navbar.jsx';
-import { useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Layout from './components/layout/Layout.jsx';
+
+import SearchPage from './pages/SearchPage.jsx';
+import SavedPage from './pages/SavedTripsPage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
+import RegisterPage from './pages/RegisterPage.jsx';
 
 function App() {
-  const [trips, setTrips] = useState([]);
-
   return (
-    <>
-      <Navbar />
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Container maxWidth='md' sx={{ height: '100%', py: 2 }}>
-          <TripList trips={trips} onTripsChange={setTrips} />
-        </Container>
-      </Box>
-    </>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<Navigate to='/search' replace />} />
+        <Route path='/search' element={<SearchPage />} />
+        <Route path='/saved' element={<SavedPage />} />
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/register' element={<RegisterPage />} />
+        <Route path='*' element={<Navigate to='/search' replace />} />
+      </Route>
+    </Routes>
   );
 }
 
