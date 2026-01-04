@@ -30,6 +30,12 @@ export default function TripCard({ trip, selected, onToggleSelected }) {
         borderColor: 'divider',
         boxShadow: '0 10px 30px rgba(0,0,0,0.06)',
         overflow: 'hidden',
+        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+        '&:hover': {
+          transform: 'translateY(-2px)',
+          boxShadow: '0 14px 20px rgba(77,163,255,0.15)',
+          borderColor: 'primary.main',
+        },
       }}
     >
       <CardContent sx={{ p: 2 }}>
