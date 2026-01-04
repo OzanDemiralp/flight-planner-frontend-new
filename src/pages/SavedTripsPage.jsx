@@ -1,3 +1,6 @@
-export default function SavedTripsPage() {
-  return <div>Saved Trips</div>;
+import { trips } from '../mock/trips.js';
+import SavedTripList from '../components/SavedTripList/SavedTripList.jsx';
+
+export default function SavedPage() {
+  return <SavedTripList trips={trips} />;
 }
