@@ -7,7 +7,8 @@ export default function TripListFooter({
   page,
   onPageChange,
   selectedCount,
-  onSaveSelected,
+  actionLabel = 'Save selected',
+  onAction,
 }) {
   if (pageCount <= 1) return null;
 
@@ -26,9 +27,9 @@ export default function TripListFooter({
         variant='contained'
         size='small'
         disabled={selectedCount === 0}
-        onClick={onSaveSelected}
+        onClick={onAction}
       >
-        Save selected ({selectedCount})
+        {actionLabel} ({selectedCount})
       </Button>
     </Box>
   );

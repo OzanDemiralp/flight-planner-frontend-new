@@ -93,7 +93,8 @@ export default function TripList({ trips = [], onTripsChange }) {
         page={page}
         onPageChange={handleFooterPageChange}
         selectedCount={selectedTripIds.size}
-        onSaveSelected={handleSaveSelected}
+        actionLabel='Save selected'
+        onAction={handleSaveSelected}
       />
     </Box>
   );
