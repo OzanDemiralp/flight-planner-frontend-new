@@ -11,16 +11,19 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 
 import AuthCard from '../components/auth/AuthCard.jsx';
+import { useAuth } from '../auth/authContext.jsx';
+import { login } from '../api/auth.api.js';
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
+  const { setUser, setFlash } = useAuth();
 
   const onChange = (field) => (e) =>
     setForm((p) => ({ ...p, [field]: e.target.value }));
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -29,7 +32,18 @@ export default function LoginPage() {
       return;
     }
 
-    navigate('/search');
+    try {
+      const res = await login(form);
+      setUser(res.data);
+      setFlash({
+        message: `Welcome ${res.data.name}`,
+        severity: 'success',
+      });
+
+      navigate('/search');
+    } catch (err) {
+      setError(err.response?.data?.message ?? 'Login failed');
+    }
   };
 
   return (
