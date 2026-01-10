@@ -17,7 +17,7 @@ export default function Layout() {
             <Flash
               open
               message={flash.message}
-              severity={flash.severity}
+              severity={flash.type}
               onClose={() => setFlash(null)}
             />
           )}
