@@ -6,15 +6,16 @@ import TripListHeader from './TripListHeader';
 import TripResults from './TripResults';
 import TripListFooter from './TripListFooter';
 import SearchForm from '../SearchForm/SearchForm.jsx';
-
 import { planTrip } from '../../api/trips.api.js';
+import { saveTrips } from '../../api/savedTrips.api.js';
+import { useAuth } from '../../auth/authContext.jsx';
 
 export default function TripList({ trips = [], onTripsChange }) {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(6);
   const [selectedTripIds, setSelectedTripIds] = useState(() => new Set());
   const [searchOpen, setSearchOpen] = useState(false);
-
+  const { setFlash } = useAuth();
   const pageCount = Math.ceil(trips.length / pageSize);
 
   const pageTrips = useMemo(() => {
@@ -37,8 +38,17 @@ export default function TripList({ trips = [], onTripsChange }) {
     });
   };
 
-  const handleSaveSelected = () => {
-    setSelectedTripIds(new Set());
+  const handleSaveSelected = async () => {
+    if (selectedTripIds.size === 0) return;
+
+    try {
+      await saveTrips(Array.from(selectedTripIds));
+      setSelectedTripIds(new Set());
+      setFlash({ type: 'success', message: 'Trips saved' });
+    } catch (err) {
+      console.error(err);
+      setFlash({ type: 'error', message: 'Failed to save trips' });
+    }
   };
 
   const handleSearch = async (payload) => {
