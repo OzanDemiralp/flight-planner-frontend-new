@@ -4,8 +4,23 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../auth/authContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
+  const { user, loading, logout, setFlash } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    setFlash({
+      message: 'Successfully logged out',
+      severity: 'info',
+    });
+
+    navigate('/', { replace: true });
+  };
+
   return (
     <AppBar
       position='sticky'
@@ -26,12 +41,21 @@ export default function Navbar() {
         <Box sx={{ flex: 1 }} />
 
         <Stack direction='row' spacing={1}>
-          <Button LinkComponent={Link} to='/login' variant='outlined'>
-            Login
-          </Button>
-          <Button LinkComponent={Link} to='register' variant='contained'>
-            Register
-          </Button>
+          {!loading &&
+            (user ? (
+              <Button onClick={handleLogout} variant='outlined'>
+                Logout
+              </Button>
+            ) : (
+              <>
+                <Button LinkComponent={Link} to='/login' variant='outlined'>
+                  Login
+                </Button>
+                <Button LinkComponent={Link} to='/register' variant='contained'>
+                  Register
+                </Button>
+              </>
+            ))}
         </Stack>
       </Toolbar>
     </AppBar>
