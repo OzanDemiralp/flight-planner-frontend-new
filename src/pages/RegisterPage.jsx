@@ -1,6 +1,8 @@
 // src/pages/RegisterPage.jsx
 import { useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { register, login } from '../api/auth.api.js';
+import { useAuth } from '../auth/authContext.jsx';
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -16,11 +18,12 @@ export default function RegisterPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
+  const { setUser, setFlash } = useAuth();
 
   const onChange = (field) => (e) =>
     setForm((p) => ({ ...p, [field]: e.target.value }));
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -36,7 +39,20 @@ export default function RegisterPage() {
       return;
     }
 
-    navigate('/login');
+    try {
+      await register({ name, email, password });
+      const res = await login({ email, password });
+
+      setUser(res.data);
+      setFlash({
+        message: `Welcome ${res.data.name}, your account is ready`,
+        severity: 'success',
+      });
+
+      navigate('/search');
+    } catch (err) {
+      setError(err.response?.data?.message ?? 'Register failed');
+    }
   };
 
   return (
