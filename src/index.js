@@ -7,6 +7,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/tr';
 import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './auth/authContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,7 +15,9 @@ root.render(
     <CssBaseline />
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='tr'>
       <BrowserRouter>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </BrowserRouter>
     </LocalizationProvider>
   </ThemeProvider>
