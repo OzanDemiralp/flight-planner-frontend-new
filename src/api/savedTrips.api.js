@@ -5,3 +5,7 @@ export function saveTrips(tripIds) {
     tripIds,
   });
 }
+
+export function getSavedTrips() {
+  return api.get('/savedTrips');
+}
