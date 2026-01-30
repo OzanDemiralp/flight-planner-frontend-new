@@ -31,5 +31,7 @@ export default function SavedPage() {
     };
   }, [setFlash]);
 
-  return <SavedTripList trips={trips} loading={loading} />;
+  return (
+    <SavedTripList trips={trips} onTripsChange={setTrips} loading={loading} />
+  );
 }
