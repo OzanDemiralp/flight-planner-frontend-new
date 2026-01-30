@@ -1,14 +1,17 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import TripResults from '../TripList/TripResults';
 import TripListFooter from '../TripList/TripListFooter';
 import SavedTripListHeader from './SavedTripListHeader';
+import { useAuth } from '../../auth/authContext.jsx';
+import { deleteSavedTrips } from '../../api/savedTrips.api.js';
 
-export default function SavedTripList({ trips = [] }) {
+export default function SavedTripList({ trips = [], onTripsChange }) {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(6);
   const [selectedTripIds, setSelectedTripIds] = useState(() => new Set());
+  const { setFlash } = useAuth();
 
   const pageCount = Math.ceil(trips.length / pageSize);
 
@@ -27,9 +30,28 @@ export default function SavedTripList({ trips = [] }) {
     });
   };
 
-  const handleRemoveSelected = () => {
-    setSelectedTripIds(new Set());
+  const handleRemoveSelected = async () => {
+    if (selectedTripIds.size === 0) return;
+
+    const ids = Array.from(selectedTripIds);
+
+    try {
+      await deleteSavedTrips(ids);
+
+      onTripsChange?.((prev) => prev.filter((t) => !ids.includes(t.id)));
+
+      setSelectedTripIds(new Set());
+      setFlash?.({ type: 'success', message: 'Trips removed' });
+    } catch (err) {
+      console.error(err);
+      setFlash?.({ type: 'error', message: 'Failed to remove trips' });
+    }
   };
+
+  useEffect(() => {
+    const nextPageCount = Math.max(1, Math.ceil(trips.length / pageSize));
+    setPage((p) => Math.min(p, nextPageCount));
+  }, [trips.length, pageSize]);
 
   return (
     <Box
