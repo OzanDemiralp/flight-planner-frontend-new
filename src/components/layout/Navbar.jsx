@@ -15,7 +15,7 @@ export default function Navbar() {
     await logout();
     setFlash({
       message: 'Successfully logged out',
-      severity: 'info',
+      type: 'info',
     });
 
     navigate('/', { replace: true });
