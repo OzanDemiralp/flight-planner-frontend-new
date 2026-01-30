@@ -10,8 +10,6 @@ export default function TripListFooter({
   actionLabel = 'Save selected',
   onAction,
 }) {
-  if (pageCount <= 1) return null;
-
   return (
     <Box sx={{ p: 2, display: 'flex', justifyContent: 'center' }}>
       <Pagination
