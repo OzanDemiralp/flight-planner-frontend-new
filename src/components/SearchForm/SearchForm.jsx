@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -12,6 +12,21 @@ import SortSection from './SortSection';
 import buildPayload from '../../utils/buildpayload';
 import { todayYYYYMMDD, plusDaysYYYYMMDD } from '../../utils/datetime';
 import Section from './Section';
+
+const SEARCH_FORM_KEY = 'fp.searchForm.v1';
+
+function loadSearchFormCache() {
+  const raw = sessionStorage.getItem(SEARCH_FORM_KEY);
+  return raw ? JSON.parse(raw) : null;
+}
+
+function saveSearchFormCache(state) {
+  sessionStorage.setItem(SEARCH_FORM_KEY, JSON.stringify(state));
+}
+
+function clearSearchFormCache() {
+  sessionStorage.removeItem(SEARCH_FORM_KEY);
+}
 
 const initialState = {
   departureFrom: '',
@@ -75,7 +90,22 @@ function reducer(state, action) {
 }
 
 export default function SearchForm({ onSubmit }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState, (base) => {
+    const cached = loadSearchFormCache();
+    if (!cached) return base;
+    // merge cached with initial state
+    return {
+      ...base,
+      ...cached,
+      searchWindow: { ...base.searchWindow, ...cached.searchWindow },
+      filters: { ...base.filters, ...cached.filters },
+      sort: { ...base.sort, ...cached.sort },
+    };
+  });
+
+  useEffect(() => {
+    saveSearchFormCache(state);
+  }, [state]);
 
   const submit = (e) => {
     e.preventDefault();
@@ -83,7 +113,10 @@ export default function SearchForm({ onSubmit }) {
     onSubmit?.(payload);
   };
 
-  const reset = () => dispatch({ type: 'RESET', initialState });
+  const reset = () => {
+    clearSearchFormCache();
+    dispatch({ type: 'RESET' });
+  };
 
   return (
     <Box component='form' onSubmit={submit}>
