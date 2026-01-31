@@ -44,7 +44,7 @@ export default function TripList({ trips = [], onTripsChange }) {
     try {
       await saveTrips(Array.from(selectedTripIds));
       setSelectedTripIds(new Set());
-      setFlash({ type: 'success', message: 'Trips saved' });
+      setFlash({ type: 'info', message: 'Trips saved' });
     } catch (err) {
       console.error(err);
       setFlash({ type: 'error', message: 'Failed to save trips' });
