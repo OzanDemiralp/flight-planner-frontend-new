@@ -1,4 +1,3 @@
-// src/pages/RegisterPage.jsx
 import { useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { register, login } from '../api/auth.api.js';
@@ -51,7 +50,13 @@ export default function RegisterPage() {
 
       navigate('/search');
     } catch (err) {
-      setError(err.response?.data?.message ?? 'Register failed');
+      const data = err.response?.data;
+
+      if (Array.isArray(data?.details) && data.details.length) {
+        setError(data.details.join('\n'));
+      } else {
+        setError(data?.message ?? 'Register failed');
+      }
     }
   };
 

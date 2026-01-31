@@ -42,7 +42,13 @@ export default function LoginPage() {
 
       navigate('/search');
     } catch (err) {
-      setError(err.response?.data?.message ?? 'Login failed');
+      const data = err.response?.data;
+
+      if (Array.isArray(data?.details) && data.details.length) {
+        setError(data.details.join('\n')); // veya join(' • ')
+      } else {
+        setError(data?.message ?? 'Login failed');
+      }
     }
   };
 
